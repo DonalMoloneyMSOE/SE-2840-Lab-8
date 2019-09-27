@@ -1,0 +1,85 @@
+<!--
+ * Created by Moloney on 1/18/2018.
+ * Lab 8 Bus Tracker Angular JS
+ * Dr. Hornick
+ * SE-2840
+ * Web Application Development
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Title tab for the project -->
+    <title>Lab 8 Donal Moloney</title>
+
+    <!-- Links the google map access to the html project-->
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw90BaZk7NKz5dmJtLKqEk0Yt56EgYUUg"></script>
+
+
+    <!-- Latest version of non-minified AngularJS. Note that there is a minified version available, but
+    you should definitely not pull it in until your application is debugged. The error messages and
+    stack traces from the minified version are almost impossible to decipher. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+
+    <!-- This is a special version of Bootstrap that works with AngularJS.
+    Do not use the regular Bootstrap library in AngularJS applications! -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+
+    <!-- Note you must continue to use the Latest compiled and minified CSS library for Bootstrap, even
+    though the special version of the Bootstrap js file is being pulled in here. -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+    <!-- Links the javascript to the files to te html projact -->
+    <script src="./BusTracker.js" type="text/javascript"></script>
+    <script src="./key.js" type="text/javascript"></script>
+
+    <!-- Formats the map so it can be sean -->
+    <style>
+
+        #map-canvas {
+            height: 400px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<!-- Start of the body linked to angluar js myApp-->
+<body ng-app="myApp">
+<!-- Causes the screen to readjust to the size of the page -->
+<div class="container-fluid"  ng-controller="busTracker">
+    <!-- Label for the route-->
+    Route: <input ng-model="entry">
+
+    <!-- Start button with bootstrap class info design -->
+    <button class="btn btn-primary" ng-click="doAjaxRequest();">Start</button>
+
+    <!-- Stop button with bootstrap class info design -->
+    <button class="btn btn-primary" ng-click="stopTimer()">Stop</button>
+
+    <!-- Paragraph for update info text seen is dynamically set -->
+    <p summary="updateValue">Update: {{updateValue}}</p>
+    <!-- Div where map will be placed displays "Error Can't see" when error occurs displaying the map-->
+    <div id="map-canvas">Error Can't see</div>
+    <br>
+    <!-- This is a table with the bootstrap class for creating stripped table linked to display data from JSON object-->
+    <table ng-show="showTable" class="table table-striped table-condensed table-bordered" summary="busesOnRoute">
+        <tr><th>Bus</th><th>Route</th><th>Latitude</th><th>Longitude</th><th>Speed(MPH)</th><th>dist(mi)</th></tr>
+        <tr ng-repeat='entry in busOnRoute track by $index'>
+            <td>{{entry.vid}}</td> <!-- Where the data for the bus id goes -->
+            <td>{{entry.rt}}</td> <!-- Where the data bus route goes-->
+            <td>{{entry.lat | number:4}}</td> <!-- Where the data for the  bus latitude goes-->
+            <td>{{entry.lon | number:4}}</td> <!-- Where the data for the bus longitude goes -->
+            <td>{{entry.spd | number:4}}</td> <!-- Where the data for the bus speed goes -->
+            <td>{{(entry.pdist / 5280)|number:4}}</td> <!-- Where the data for the distance in miles goes  -->
+        </tr>
+    </table>
+    <!-- This paragraph displays the errors that occur from running the program-->
+    <p ng-show="showErrorTable" summary="errTxt">{{errTxt}}</p>
+</div>
+<!-- End of Body -->
+</body>
+<!-- End of HTML -->
+</html>
